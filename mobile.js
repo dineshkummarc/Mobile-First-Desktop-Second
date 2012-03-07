@@ -1,27 +1,60 @@
-(function(doc) {
+(function(w) {
 
 	/*
 	 * iOS bug (currently effects up to version 5.0) means page doesn't re-scale properly on orientation change.
 	 * See:
 	 * 	http://www.blog.highub.com/mobile-2/a-fix-for-iphone-viewport-scale-bug/
 	 * 	https://gist.github.com/901295
+	 *  https://github.com/scottjehl/iOS-Orientationchange-Fix
 	 */
-	var addEvent = 'addEventListener',
-	    type = 'gesturestart',
-	    qsa = 'querySelectorAll',
-	    scales = [1, 1],
-	    meta = qsa in doc ? doc[qsa]('meta[name=viewport]') : [];
-
-	function fix() {
-		meta.content = 'width=device-width,minimum-scale=' + scales[0] + ',maximum-scale=' + scales[1];
-		doc.removeEventListener(type, fix, true);
+	 
+	// This fix addresses an iOS bug, so return early if the UA claims it's something else.
+	if( !( /iPhone|iPad|iPod/.test( navigator.platform ) && navigator.userAgent.indexOf( "AppleWebKit" ) > -1 ) ){
+		return;
 	}
+	
+    var doc = w.document;
 
-	if ((meta = meta[meta.length - 1]) && addEvent in doc) {
-		fix();
-		scales = [.25, 1.6];
-		doc[addEvent](type, fix, true);
-	}
+    if( !doc.querySelector ){ return; }
+
+    var meta = doc.querySelector( "meta[name=viewport]" ),
+        initialContent = meta && meta.getAttribute( "content" ),
+        disabledZoom = initialContent + ",maximum-scale=1",
+        enabledZoom = initialContent + ",maximum-scale=10",
+        enabled = true,
+		x, y, z, aig;
+
+    if( !meta ){ return; }
+
+    function restoreZoom(){
+        meta.setAttribute( "content", enabledZoom );
+        enabled = true;
+    }
+
+    function disableZoom(){
+        meta.setAttribute( "content", disabledZoom );
+        enabled = false;
+    }
+	
+    function checkTilt( e ){
+		aig = e.accelerationIncludingGravity;
+		x = Math.abs( aig.x );
+		y = Math.abs( aig.y );
+		z = Math.abs( aig.z );
+				
+		// If portrait orientation and in one of the danger zones
+        if( !w.orientation && ( x > 7 || ( ( z > 6 && y < 8 || z < 8 && y > 6 ) && x > 5 ) ) ){
+			if( enabled ){
+				disableZoom();
+			}        	
+        }
+		else if( !enabled ){
+			restoreZoom();
+        }
+    }
+	
+	w.addEventListener( "orientationchange", restoreZoom, false );
+	w.addEventListener( "devicemotion", checkTilt, false );
 	
 	/************************************************************************************************************************************/
 	/************************************************************************************************************************************/
@@ -37,7 +70,7 @@
 		
 		// screen.width doesn't work in Internet Explorer so we revert to clientWidth
 		if ('attachEvent' in doc) {
-			_width = document.documentElement.clientWidth;
+			_width = doc.documentElement.clientWidth;
 		} else {
 			_width = (screen.width < 768) ? true : false;	
 		}
@@ -55,4 +88,4 @@
 		alert('mobile device specific features');
 	}
 
-}(document));
+}(this));
