@@ -2,12 +2,21 @@
 
 ##Description
 
-This project is an example of a 'mobile first' approach to creating a website that works across all devices but only loads assets for the specific device needed.
+This is just a basic example of how to get started with a 'mobile first' approach.
+
+We target:
+
+* mobile
+* tablet
+* desktop
+
+It includes a fix for the iOS orientation bug that affects iOS versions up to 5.0
+
+Also includes a super basic example of writing JavaScript to target specific devices.
+
+---
 
 ###TODO
 
-* Write an example JavaScript file which loads images dependant on the device
+* Write an example script which loads relevant low/high-res images dependant on the device
 * Wrap the JavaScript into modules and incorporate [almond.js](https://github.com/jrburke/almond) (instead of RequireJs)
-* Incorporate a responsive design using OOCSS (+Sass)
-
-The basics are here to demonstrate the principle of "mobile first" but I would like to expand this a bit more so it can become a more realistic and useful example. 
