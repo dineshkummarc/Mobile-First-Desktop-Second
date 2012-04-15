@@ -1,32 +1,46 @@
 <!doctype html>
+<!--[if IE]><![endif]--><!-- Explanation: http://www.phpied.com/conditional-comments-block-downloads/ -->
 <html lang="en" dir="ltr">
 	<head>
 		<meta charset="utf-8">
-		<title>Mobile First (Desktop Second)</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-		<!--
-			AN ALTERNATIVE ROUTE TO DEVICES YOU WISH TO TARGET… 
-				<link rel="stylesheet" type="text/css" href="basic.css" media="screen, handheld" />
-				<link rel="stylesheet" type="text/css" href="mobile.css" media="only screen and (min-width: 320px) and (max-width: 640px)" />
-				<link rel="stylesheet" type="text/css" href="desktop.css" media="only screen and (min-width: 640px)" />
-		-->
-		<link href="mobile.css" rel="stylesheet" media="screen, handheld">
-		<link href="desktop.css" rel="stylesheet" media="only screen and (min-device-width:768px)">		
-		<script src="mobile.js"></script>
 		<!--[if lt IE 9]>
-			<link href="desktop.css" rel="stylesheet" media="screen">
+		<script src="Assets/Scripts/html5.js"></script>
+		<![endif]-->
+		<title>Mobile First (Desktop Second)</title>
+		<link rel="stylesheet" href="Assets/Styles/base.css">
+		<link rel="stylesheet" href="Assets/Styles/mobile.css"  media="only screen and (min-width: 320px)">
+        <link rel="stylesheet" href="Assets/Styles/tablet.css"  media="only screen and (min-width: 480px) and (max-width: 959px)">
+        <link rel="stylesheet" href="Assets/Styles/desktop.css" media="only screen and (min-width: 960px)">
+		<!--[if lt IE 9]>
+			<link rel="stylesheet" href="Assets/Styles/desktop.css">
 		<![endif]-->
 	</head>
 	<body>
-		<p>Our <code>desktop.css</code> stylesheet uses the media query <code>screen and (min-device-width:768px)</code>.</p>
-		<p><code>min-device-width</code> tells us the available space of the device, while queries such as <code>width</code> (or <code>min/max-width</code>) tell us the width of the content.</p>
-		<p><img src="mobile_mediaqueries.jpg"></p>
-		<p>Something to be aware of (as noted by <a href="http://www.quirksmode.org/blog/archives/2010/09/combining_meta.html">QuirksMode</a>):</p>
-		<blockquote>
-			<p>Some mobile browsers, notably Safari iPhone, have a default layout viewport of around 850 to 1000 pixels — much larger than the device width. (Why? In order to accomodate desktop sites whose developers did not test on mobile. Such sites usually stretch to roughly that width.)</p>
-		</blockquote>
-		<p>So the default ('mobile.css') stylesheet is the one you see on the mobile device, and devices with larger viewports get the extras. The reason we set 768px for the minimum device width was mainly to accommodate the iPad and any similar tablets that appear in future. We decided that iPad users should get the full site experience, and as the iPad’s shorter screen side has a width of 768px, that's the figure we chose. Any device with a lower resolution gets the mobile version.</p>
-		<p>See also: <a href="http://www.broken-links.com/2011/02/21/using-media-queries-in-the-real-world/">http://www.broken-links.com/2011/02/21/using-media-queries-in-the-real-world/</a> which is a useful article on Mobile First approaches (inc. a technique for loading the correct sized images by having the server send empty <code>src</code> values and instead assigning the source to <code>data-src</code> and using JavaScript to filter through the images and replace the <code>src</code> value appropriately - yes this means devices without JavaScript don't get to see the images but then if they don't have JavaScript enabled then viewable content is an acceptable consolation)</p>
-		<p>We could use <a href="https://github.com/scottjehl/Respond">Respond.js</a> to provide media query support to IE6-8 but that only works when your media queries are using <code>min/max-width</code> and so doesn't work with <code>min/max-device-width</code>.</p>
+        <div class="l-container">
+            <h1>Mobile First (Desktop Second)</h1>
+            <h2>Description</h2>
+            <p>We have three stylesheets</p>
+            <ol>
+                <li>mobile <code>(min-width:320px)</code></li>
+                <li>tablet <code>(min-width:480px) and (max-width:959px)</code></li>
+                <li>desktop <code>(min-width:960px)</code></li>
+            </ol>
+            <h2>Differences between <code>min-width</code> and <code>min-device-width</code></h2>
+    		<p><code>min-device-width</code> tells us the available space of the device, while queries such as <code>width</code> (or <code>min/max-width</code>) tell us the width of the content.</p>
+    		<h2>Max Width Images</h2>
+    		<p>The following image uses <code>max-width:100%;</code> to ensure it doesn't overflow the maximum width of its container. So on the desktop version you'll just see the image as it should be, but on the tablet or mobile version (where the image would normally be wider than the content area) you would then see it resize to fit 100% of its container.</p>
+    		<p><img src="Assets/Images/test.jpg"></p>
+    		<h2>Viewport Dimensions</h2>
+    		<p><img src="Assets/Images/mobile_mediaqueries.jpg"></p>
+    		<p>Something to be aware of (as noted by <a href="http://www.quirksmode.org/blog/archives/2010/09/combining_meta.html">QuirksMode</a>):</p>
+    		<blockquote>
+    			<p>Some mobile browsers, notably Safari iPhone, have a default layout viewport of around 850 to 1000 pixels — much larger than the device width. (Why? In order to accomodate desktop sites whose developers did not test on mobile. Such sites usually stretch to roughly that width.)</p>
+    		</blockquote>
+    		<h2>Dynamic image loading</h2>
+    		<p>See also: <a href="http://www.broken-links.com/2011/02/21/using-media-queries-in-the-real-world/">http://www.broken-links.com/2011/02/21/using-media-queries-in-the-real-world/</a> which is a useful article on Mobile First approaches (inc. a technique for loading the correct sized images by having the server send empty <code>src</code> values and instead assigning the source to <code>data-src</code> and using JavaScript to filter through the images and replace the <code>src</code> value appropriately - yes this means devices without JavaScript don't get to see the images but then if they don't have JavaScript enabled then viewable content is an acceptable consolation)</p>
+    		<p>But really, I don't see why you couldn't load small low-res images for mobile and then use the <code>data-attribute</code> technique with JavaScript to load high-res images for tablets and desktop?</p>
+        </div>
+		<script src="Assets/Scripts/mobile.js"></script>
 	</body>
 </html>

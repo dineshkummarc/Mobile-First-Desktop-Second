@@ -1,0 +1,39 @@
+body {
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 100%; /* this sets 1em to equal approximately 16px */
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    line-height: 1.3em;
+    margin: 0 0 1em;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.8em;
+}
+
+/* force IE Box Model */
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* ensure images stretch to 100% */
+img {
+    max-width: 100%;
+}
+
+.l-container {
+    border: 1px solid white;
+    margin: auto;
+    padding: 1%;
+    width: 90%;
+} 
